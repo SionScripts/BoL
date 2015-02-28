@@ -1,9 +1,9 @@
 print("Sion's Sion script Version 1.0")
 print("Thank you for using")
-require "VPrediction"
+--require "VPrediction"
 
 
-local VP = VPrediction()
+--local VP = VPrediction()
 local ts
 
 function OnLoad()
@@ -24,11 +24,11 @@ Config.hotkeys:addParam("combo", "Combo mode", SCRIPT_PARAM_ONKEYDOWN, false, st
 		Config.ulty:addParam("ultimate", "Ultimate control", SCRIPT_PARAM_ONOFF, true)
 		--[Draw]--
 	Config:addSubMenu("Draw", "draw")
-	Config.draw:addParam("drawCircle", "Draw Q range", SCRIPT_PARAM_ONOFF, true)
+	Config.draw:addParam("drawCircle", "Draw Combat Range", SCRIPT_PARAM_ONOFF, true)
 			--[other]--
-							Config:addSubMenu("other", "other")
+		--[[					Config:addSubMenu("other", "other")
 	Config.other:addParam("printHp", "Health warning", SCRIPT_PARAM_ONOFF, true)
-
+]]
 	ts = TargetSelector(TARGET_LOW_HP_PRIORITY,800)
 end
  
@@ -44,28 +44,22 @@ function OnTick()
 		-- Spacebar pressed ?
 		if (Config.hotkeys.combo) then
 
-	if (myHero:CanUseSpell(_E) == READY) then
-   if (Config.Combo.E) then
-      CastPosition,  HitChance,  Position = VP:GetLineCastPosition(target, delay, width, range, speed, myHero, isCollision)
-      if CastPosition then
-         CastSpell(_E, CastPosition.x, CastPosition.z)
-      end
-   end
-end
+			if (myHero:CanUseSpell(_E) == READY) then
+					if (Config.Combo.E) then
+				CastSpell(_E, ts.target.x,ts.target.z)
+			end
+		end
 
 			if (myHero:CanUseSpell(_W) == READY) then
 					if (Config.Combo.W) then
 				CastSpell(_W, ts.target.x,ts.target.z)
 			end
 		end
-if (myHero:CanUseSpell(_Q) == READY) then
-   if (Config.Combo.Q) then
-      CastPosition,  HitChance,  Position = VP:GetLineCastPosition(target, delay, width, range, speed, myHero, isCollision)
-      if CastPosition then
-         CastSpell(_Q, CastPosition.x, CastPosition.z)
-      end
-   end
-end
+			if (myHero:CanUseSpell(_Q) == READY) then
+					if (Config.Combo.Q) then
+				CastSpell(_Q, ts.target.x,ts.target.z)
+			end
+		end
 		end
 	end
 	
@@ -83,7 +77,7 @@ function OnDraw()
 		DrawCircle(myHero.x, myHero.y, myHero.z, 800, 0x111111)
 	end
 	
-	-- Show HP warning
+	--[[
 	if (Config.printHp) then
 		if (myHero.health < 200) then
 			DrawText("Warning: LOW HP! Drink a potion!", 18, 100, 100, 0xFFFFFF00)
@@ -98,4 +92,4 @@ HL_slot = SUMMONER_1
 elseif player:GetSpellData(SUMMONER_2).name == "summonerheal" then
 HL_slot = SUMMONER_2
 end
-end
+end]]
