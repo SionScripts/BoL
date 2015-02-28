@@ -1,4 +1,31 @@
-print("Sion's Sion script Version 1.0")
+--[Change log]
+--1.00 > Initial release
+--1.10 > Auto-update added
+if myHero.charName ~= "Sion" then return end
+--[AutoUpdate]--
+local version = 1.1
+local AUTOUPDATE = true
+local SCRIPT_NAME = "SionsSion"
+--========--
+local SOURCELIB_URL = "https://raw.github.com/TheRealSource/public/master/common/SourceLib.lua"
+local SOURCELIB_PATH = LIB_PATH.."SourceLib.lua"
+
+if FileExist(SOURCELIB_PATH) then
+	require("SourceLib")
+else
+	DOWNLOADING_SOURCELIB = true
+	DownloadFile(SOURCELIB_URL, SOURCELIB_PATH, function() print("Required libraries downloaded successfully, please reload") end)
+end
+
+if DOWNLOADING_SOURCELIB then print("Downloading required libraries, please wait...") return end
+
+if AUTOUPDATE then
+	 SourceUpdater(SCRIPT_NAME, version, "raw.github.com", "/SionScripts/BoL/BoL/"..SCRIPT_NAME..".lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/SionScripts/BoL/BoL/"..SCRIPT_NAME..".version"):CheckUpdate()
+end
+
+
+
+print("Sion's Sion script Version 1.1")
 print("Thank you for using")
 --require "VPrediction"
 
@@ -76,7 +103,7 @@ function OnDraw()
 	if (Config.draw.drawCircle) then
 		DrawCircle(myHero.x, myHero.y, myHero.z, 800, 0x111111)
 	end
-	
+	end
 	--[[
 	if (Config.printHp) then
 		if (myHero.health < 200) then
