@@ -26,7 +26,7 @@ end
 
 
 print("Sion's Sion script Version 1.1")
-print("Thank you for using")
+print("Thank you for using Sion's Sion script")
 --require "VPrediction"
 
 
