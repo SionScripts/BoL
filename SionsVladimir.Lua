@@ -25,7 +25,7 @@ end
 
 
 print("Sion's Vladimir script Version 1.0")
-print("Thank you for using"
+print("Thank you for using Sion's Vladimir script."
 
 require 'VPrediction'
 require 'SOW'
