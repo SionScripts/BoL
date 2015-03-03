@@ -1,4 +1,4 @@
--[Change log]
+--[Change log]
 --1.00 > Initial release
 if myHero.charName ~= "Vladimir" then return end
 --[AutoUpdate]--
@@ -25,7 +25,7 @@ end
 
 
 print("Sion's Vladimir script Version 1.0")
-print("Thank you for using Sion's Vladimir script."
+print("Thank you for using Sion's Vladimir script.")
 
 require 'VPrediction'
 require 'SOW'
@@ -35,7 +35,6 @@ local Recall = false
 local VP = nil
 local QREADY, WREADY, EREADY, RREADY, IREADY = false, false, false, false, false
 local Target = nil
-local abilitySequence = {1,3,2,1,1,4,1,3,1,2,4,3,3,2,2,4,3,2}
 local qrange, erange, rrange = 600, 600, 700
 function OnLoad()
 	  VP = VPrediction()
