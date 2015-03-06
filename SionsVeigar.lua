@@ -2,7 +2,7 @@
 --1.00 > Initial release
 if myHero.charName ~= "Veigar" then return end
 --[AutoUpdate]--
-local version = 1.0
+local version = 1.1
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsVeigar"
 time = os.clock()
