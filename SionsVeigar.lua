@@ -1,4 +1,4 @@
--[Change log]
+--[Change log]
 --1.00 > Initial release
 if myHero.charName ~= "Veigar" then return end
 --[AutoUpdate]--
