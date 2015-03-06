@@ -1,10 +1,12 @@
 --[Change log]
 --1.00 > Initial release
+-- 1.1 > Auto- Zhonya and Auto-Stack E
 if myHero.charName ~= "Vladimir" then return end
 --[AutoUpdate]--
-local version = 1.0
+local version = 1.1
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsVladimir"
+time = os.clock()
 --========--
 local SOURCELIB_URL = "https://raw.github.com/TheRealSource/public/master/common/SourceLib.lua"
 local SOURCELIB_PATH = LIB_PATH.."SourceLib.lua"
@@ -57,6 +59,7 @@ function OnLoad()
 		Menu.Harass:addParam("eh", "Use E", SCRIPT_PARAM_ONOFF, true)
 		
 		
+		
 			Menu:addSubMenu("Last hit settings", "lasthit")
 		Menu.lasthit:addParam("sep", "--Last Hit Settings--", SCRIPT_PARAM_INFO, "")
 		Menu.lasthit:addParam("qf", "Use Q", SCRIPT_PARAM_ONOFF, true)
@@ -67,11 +70,20 @@ function OnLoad()
 		Menu.killsteal:addParam("kse", "Killsteal on E", SCRIPT_PARAM_ONOFF, true)
 		Menu.killsteal:addParam("ksr", "Killsteal on R", SCRIPT_PARAM_ONOFF, true)
 		
+		Menu:addSubMenu("Zhonyas", "zhonyas")
+				Menu.zhonyas:addParam("zhonyas", "Auto Zhonyas", SCRIPT_PARAM_ONOFF, true)
+				Menu.zhonyas:addParam("zhonyasunder", "Use Zhonyas under % health", SCRIPT_PARAM_SLICE, 20, 0, 100 , 0)
+				Menu.zhonyas:addParam("zRange", "Use if x Enemies are in x Range", SCRIPT_PARAM_SLICE, 500, 0, 800, 0)
+				Menu.zhonyas:addParam("zAmount", "Use Zhonyas if x Enemies are near", SCRIPT_PARAM_SLICE, 1, 0, 5, 0)
+				
+									Menu:addSubMenu("Additional", "Additional")
+		Menu.Additional:addParam("stack", "Auto-Stack E", SCRIPT_PARAM_ONOFF, false)
+
+		
 					Menu:addSubMenu("Draw", "Draw")
 		Menu.Draw:addParam("dq", "Draw Circle Q", SCRIPT_PARAM_ONOFF, true)
 		Menu.Draw:addParam("de", "Draw Circle E", SCRIPT_PARAM_ONOFF, true)
 		Menu.Draw:addParam("dr", "Draw Circle R", SCRIPT_PARAM_ONOFF, true)
-		
 		    Menu:addSubMenu("[Vladimir - OrbWalking]", "OrbWalking")
     NSOW:LoadToMenu(Menu.OrbWalking)
 end
@@ -82,6 +94,8 @@ function OnTick()
     NSOW:ForceTarget(Target)
     Checks()
 		Killsteal()
+		if Menu.Additional.stack then if time > os.clock() - 9 then do stack() end end end
+			if Menu.zhonyas.zhonyas then Zhonyas() end
  if Menu.OrbWalking.Mode0 then activecombo() end
  if Menu.OrbWalking.Mode1 then holdharass() end
  if Menu.OrbWalking.Mode3 then farm() end
@@ -102,6 +116,15 @@ if Menu.lasthit.qf and (myHero:CanUseSpell(_Q) == READY) then
             end
         end
     end
+end
+
+
+
+function stack()
+if (myHero:CanUseSpell(_E) == READY) then
+                    CastSpell(_E)
+										time = os.clock()
+end
 end
 
 function ef()
@@ -191,7 +214,7 @@ function eh()
 	end
 	end
 
-	-- isFacing by Feez--
+
 function isFacing(source, ourtarget, lineLength)
 	local sourceVector = Vector(source.visionPos.x, source.visionPos.z)
 	local sourcePos = Vector(source.x, source.z)
@@ -200,6 +223,19 @@ function isFacing(source, ourtarget, lineLength)
 	return GetDistanceSqr(ourtarget, {x = sourceVector.x, z = sourceVector.y}) <= (lineLength and lineLength^2 or 90000)
 end
 
+
+function Zhonyas()
+	local zSlot = GetInventorySlotItem(3157)
+		if zSlot ~= nil and myHero:CanUseSpell(zSlot) == READY then
+			local zrange = Config.misc.zhonyas.zRange
+			local zamount = Config.misc.zhonyas.zAmount
+			local health = myHero.health
+			local maxHealth = myHero.maxHealth
+				if ((health/maxHealth)*100) <= Config.misc.zhonyas.zhonyasunder and CountEnemyHeroInRange(zrange) <= zamount then
+			CastSpell(zSlot)
+		end
+	end
+end
 
 
 function GetOthersTarget()
