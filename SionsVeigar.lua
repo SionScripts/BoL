@@ -2,7 +2,7 @@
 --1.00 > Initial release
 if myHero.charName ~= "Veigar" then return end
 --[AutoUpdate]--
-local version = 1.1
+local version = 1.2
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsVeigar"
 time = os.clock()
@@ -25,7 +25,7 @@ end
 
 
 
-print("Sion's Veigar script Version 1.0")
+print("Sion's Veigar script Version 1.2")
 print("Thank you for using Sion's Vladimir script.")
 
 require 'VPrediction'
@@ -53,7 +53,7 @@ function OnLoad()
 		
 		
 		function menus()
-		Menu = scriptConfig("Vladimir", "Vladimir")
+		Menu = scriptConfig("Veigar", "Veigar")
     Menu:addTS(ts)
 		Menu:addSubMenu("Combo", "Combo")
 		Menu.Combo:addParam("q", "Use Q", SCRIPT_PARAM_ONOFF, true)
