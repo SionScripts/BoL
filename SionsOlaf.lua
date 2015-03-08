@@ -26,7 +26,8 @@ end
 
 
 
-
+print("Sion's Olaf script Version 1.0")
+print("Thank you for using Sion's Olaf script.")
 require 'VPrediction'
 require 'SxOrbWalk'
 
