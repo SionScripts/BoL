@@ -1,9 +1,8 @@
 --[Change log]
 --1.00 > Initial release
--- 1.1 > Auto- Zhonya and Auto-Stack E
 if myHero.charName ~= "Vladimir" then return end
 --[AutoUpdate]--
-local version = 1.1
+local version = 1.2
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsVladimir"
 time = os.clock()
@@ -227,8 +226,8 @@ end
 function Zhonyas()
 	local zSlot = GetInventorySlotItem(3157)
 		if zSlot ~= nil and myHero:CanUseSpell(zSlot) == READY then
-			local zrange = Config.misc.zhonyas.zRange
-			local zamount = Config.misc.zhonyas.zAmount
+			local zrange = Menu.zhonyas.zRange
+			local zamount = Menu.zhonyas.zAmount
 			local health = myHero.health
 			local maxHealth = myHero.maxHealth
 				if ((health/maxHealth)*100) <= Config.misc.zhonyas.zhonyasunder and CountEnemyHeroInRange(zrange) <= zamount then
