@@ -1,5 +1,5 @@
 
-local version = 1.0
+local version = 1.1
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsYoMomma"
 time = os.clock()
@@ -50,13 +50,13 @@ function OnLoad()
 		
 		
 		function OnTick()
-if IsKeyPressed(84) then
+if IsKeyPressed(84) and Menu.enab then
 makeajoke()
 end
 end
 		
 		function makeajoke()
-		SendChat(yomumma[ math.random( #yomumma ) ])
+		SendChat("/all " .. yomumma[ math.random( #yomumma ) ])
 		end
 
 
