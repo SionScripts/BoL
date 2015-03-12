@@ -2,7 +2,7 @@
 --1.00 > Initial release
 if myHero.charName ~= "Mordekaiser" then return end
 --[AutoUpdate]--
-local version = 1.0
+local version = 1.1
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsMordekaiser"
 time = os.clock()
@@ -89,7 +89,7 @@ function OnTick()
 	ts:update()
 	check()
 	
-	if Cel ~= nil and Config.hotkeys.combo then
+	if (ts.target ~= nil) and Config.hotkeys.combo then
 		Combo()
 	end
 	
@@ -98,7 +98,7 @@ local ally = getRandomAlly(750)
 	end
 	
 	function Combo()
-		if (ts.target ~= nil) then
+		
 		if (Config.hotkeys.combo) then
 		
 			if (myHero:CanUseSpell(_E) == READY) then
@@ -143,7 +143,7 @@ end
 end	
 		
 end
-end
+
 
 function check()
 
