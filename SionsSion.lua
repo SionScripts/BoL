@@ -45,8 +45,9 @@ local VP = VPrediction()
 
 function OnLoad()
 	CheckStuff()
+	if CheckStuff() then
     NSOW = SOW(VP)
-
+end
 	--[Menu]--
 	Config = scriptConfig("Sion by Sion", "sion")
 	--[Hotkeys]--
@@ -69,9 +70,10 @@ Config.hotkeys:addParam("combo", "Combo mode", SCRIPT_PARAM_ONKEYDOWN, false, st
 ]]
 	ts = TargetSelector(TARGET_LOW_HP_PRIORITY,800)
 --[SOW]--
+	if CheckStuff() then
 	Config:addSubMenu("[Sions - OrbWalking]", "OrbWalking")
     NSOW:LoadToMenu(Config.OrbWalking)
-
+end
 end
  
 
