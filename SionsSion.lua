@@ -4,7 +4,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 --1.00 > Initial release
 if myHero.charName ~= "Sion" then return end
 --[AutoUpdate]--
-local version = 1.31
+local version = 1.35
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsSion"
 --========--
@@ -24,17 +24,27 @@ if AUTOUPDATE then
 	 SourceUpdater(SCRIPT_NAME, version, "raw.github.com", "/SionScripts/BoL/BoL/"..SCRIPT_NAME..".lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/SionScripts/BoL/BoL/"..SCRIPT_NAME..".version"):CheckUpdate()
 end
 
+function CheckStuff()
+    if _G.Reborn_Loaded and not _G.Reborn_Initialised then
+        DelayAction(CheckStuff, 1)
+    elseif _G.Reborn_Initialised then
+		return false
+    else
+				print("SAC:R not found, loading SOW")
+        require "SOW"
+				return true
+    end
+		end
 
-
-print("Sion's Sion script Version 1.31")
+print("Sion's Sion script Version 1.35")
 print("Thank you for using")
 
 require "VPrediction"
-require 'SOW'
 local ts
 local VP = VPrediction()
 
 function OnLoad()
+	CheckStuff()
     NSOW = SOW(VP)
 
 	--[Menu]--
