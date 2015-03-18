@@ -4,7 +4,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 	
 if myHero.charName ~= "Mordekaiser" then return end
 --[AutoUpdate]--
-local version = 1.2
+local version = 1.25
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsMordekaiser"
 time = os.clock()
@@ -25,9 +25,19 @@ if AUTOUPDATE then
 	 SourceUpdater(SCRIPT_NAME, version, "raw.github.com", "/SionScripts/BoL/BoL/"..SCRIPT_NAME..".lua", SCRIPT_PATH .. GetCurrentEnv().FILE_NAME, "/SionScripts/BoL/BoL/"..SCRIPT_NAME..".version"):CheckUpdate()
 end
 
+function CheckStuff()
+    if _G.Reborn_Loaded and not _G.Reborn_Initialised then
+        DelayAction(CheckStuff, 1)
+    elseif _G.Reborn_Initialised then
+		return false
+    else
+				print("SAC:R not found, loading SOW")
+        require "SOW"
+				return true
+    end
+		end
 
-
-print("Sion's Mordekaiser script Version 1.2")
+print("Sion's Mordekaiser script Version 1.25")
 print("Thank you for using Sion's script")
 
 local QREADY, WREADY, EREADY, RREADY, IREADY = false, false, false, false, false
@@ -35,9 +45,9 @@ local qrange, wrange, erange, rrange = 250, 750, 630, 850
 local ts
 local allies = GetAllyHeroes()
 require 'VPrediction'
-require 'SOW'
 
 function OnLoad()
+	CheckStuff()
   VP = VPrediction()
     NSOW = SOW(VP)
 		local DFGSlot, HXGSlot, BWCSlot, SheenSlot, TrinitySlot, LBSlot, IGSlot, LTSlot, BTSlot, STISlot, ROSlot, BRKSlot = nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
