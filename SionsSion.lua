@@ -1,9 +1,8 @@
 --[Change log]
 --1.00 > Initial release
---1.10 > Auto-update added
 if myHero.charName ~= "Sion" then return end
 --[AutoUpdate]--
-local version = 1.1
+local version = 1.3
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsSion"
 --========--
@@ -25,16 +24,15 @@ end
 
 
 
-print("Sion's Sion script Version 1.1")
-print("Thank you for using Sion's Sion script")
---require "VPrediction"
+print("Sion's Sion script Version 1.3")
+print("Thank you for using")
 
 
---local VP = VPrediction()
+require 'SOW'
 local ts
 
 function OnLoad()
-
+    NSOW = SOW(VP)
 
 	--[Menu]--
 	Config = scriptConfig("Sion by Sion", "sion")
@@ -57,6 +55,10 @@ Config.hotkeys:addParam("combo", "Combo mode", SCRIPT_PARAM_ONKEYDOWN, false, st
 	Config.other:addParam("printHp", "Health warning", SCRIPT_PARAM_ONOFF, true)
 ]]
 	ts = TargetSelector(TARGET_LOW_HP_PRIORITY,800)
+--[SOW]--
+	Config:addSubMenu("[Sions - OrbWalking]", "OrbWalking")
+    NSOW:LoadToMenu(Config.OrbWalking)
+
 end
  
 
