@@ -49,10 +49,13 @@ require 'VPrediction'
 function OnLoad()
 	CheckStuff()
   VP = VPrediction()
-    NSOW = SOW(VP)
+
 		local DFGSlot, HXGSlot, BWCSlot, SheenSlot, TrinitySlot, LBSlot, IGSlot, LTSlot, BTSlot, STISlot, ROSlot, BRKSlot = nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil
 local HXGREADY, BWCREADY, STIREADY, ROREADY, BRKREADY, IREADY = false, false, false, false, false, false
 menu()
+if CheckStuff() then
+	    NSOW = SOW(VP)
+	    end
 end
 
 function menu()
@@ -88,12 +91,14 @@ Config.hotkeys:addParam("combo", "Combo mode", SCRIPT_PARAM_ONKEYDOWN, false, st
 	
 	ts = TargetSelector(TARGET_LOW_HP_PRIORITY,800)
 	
-	--[SOW]--
-	Config:addSubMenu("[Mordekaiser - OrbWalking]", "OrbWalking")
-    NSOW:LoadToMenu(Config.OrbWalking)
 
 	_G.oldDrawCircle = rawget(_G, 'DrawCircle')
 	_G.DrawCircle = DrawCircle2
+	
+	if CheckStuff() then
+	Config:addSubMenu("[Mordekaiser - OrbWalking]", "OrbWalking")
+    NSOW:LoadToMenu(Config.OrbWalking)
+end
 		end
 
 
