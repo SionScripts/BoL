@@ -3,7 +3,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 
 if myHero.charName ~= "Viktor" then return end
 --[AutoUpdate]--
-local version = 1.0
+local version = 1.1
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsViktor"
 time = os.clock()
