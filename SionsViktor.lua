@@ -3,7 +3,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 
 if myHero.charName ~= "Viktor" then return end
 --[AutoUpdate]--
-local version = 1.1
+local version = 1.2
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsViktor"
 time = os.clock()
@@ -154,6 +154,7 @@ CheckStuff()
 	ts.name = "Viktor"
 	Config:addTS(ts)
 	PrintChat("<font color='#E97FA5'> >> Ryuk's Viktor Fix Loaded!</font>")
+	PrintChat("Ryuk's viktor Update 1.2: Improved E")
 	
 	if CheckStuff() then
 		Orbwalker = SOW(VP)
@@ -264,7 +265,7 @@ function fullCombo()
 				if GetDistance(ts.target) < 1250 then
 					Packet('S_CAST', { spellId = SPELL_3, fromX = ts.target.x, ts.target.z, toX = pose.x, toY = pose.z }):send()
 				else
-					start = Vector(myHero) - 1250 * (Vector(myHero) - Vector(ts.target)):normalized()
+					start = Vector(myHero) - 0 * (Vector(myHero) - Vector(ts.target)):normalized()
 					--start = Vector(myHero) + (myHero - pose)*(-550/GetDistance(pose))
 					Packet('S_CAST', { spellId = SPELL_3, fromX = start.x, fromY = start.z, toX = pose.x, toY = pose.z }):send()
 				end
