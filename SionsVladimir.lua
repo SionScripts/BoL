@@ -3,7 +3,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 	
 if myHero.charName ~= "Vladimir" then return end
 --[AutoUpdate]--
-local version = 1.4
+local version = 1.5
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsVladimir"
 time = os.clock()
@@ -25,12 +25,29 @@ if AUTOUPDATE then
 end
 
 
+function CheckStuff()
+    if _G.Reborn_Loaded and not _G.Reborn_Initialised then
+        DelayAction(CheckStuff, 1)
+    elseif _G.Reborn_Initialised then
+		return false
+    else
+				print("SAC:R not found, loading SOW")
+        require "SOW"
+				return true
+    end
+		end
+		
+require "VPrediction"
+require "SourceLib"
 
-print("Sion's Vladimir script Version 1.4")
+local VP = VPrediction()
+
+
+print("Sion's Vladimir script Version 1.5")
 print("Thank you for using Sion's Vladimir script.")
 
 require 'VPrediction'
-require 'SOW'
+
 
 local ts
 local Recall = false
@@ -39,19 +56,25 @@ local QREADY, WREADY, EREADY, RREADY, IREADY = false, false, false, false, false
 local Target = nil
 local qrange, erange, rrange = 600, 600, 700
 function OnLoad()
+	CheckStuff()
 	  VP = VPrediction()
     ts = TargetSelector(TARGET_LESS_CAST, 700)
 		IgniteSlot()
-    NSOW = SOW(VP)
     Menu = scriptConfig("Vladimir", "Vladimir")
     Menu:addTS(ts)
     ts.name = "Focus"
 
+	
+		Menu:addSubMenu("Key Bindings","bind")
+		Menu.bind:addParam("Combo", "Combo", SCRIPT_PARAM_ONKEYDOWN, false, 32)
+		Menu.bind:addParam("Harass", "Harass", SCRIPT_PARAM_ONKEYDOWN, false, string.byte("C"))
+			Menu.bind:addParam("Farm", "Farm", SCRIPT_PARAM_ONKEYDOWN, false, string.byte("V"))
 		
 		Menu:addSubMenu("Combo", "Combo")
 		Menu.Combo:addParam("q", "Use Q", SCRIPT_PARAM_ONOFF, true)
 		Menu.Combo:addParam("e", "Use E", SCRIPT_PARAM_ONOFF, true)
 		Menu.Combo:addParam("r", "Use R", SCRIPT_PARAM_ONOFF, true)
+		Menu.Combo:addParam("comboRHealth", "Enemy Health % before R", SCRIPT_PARAM_SLICE, 50, 0, 100, -1)
 		Menu.Combo:addParam("ig", "Use Ignite if Killable", SCRIPT_PARAM_ONOFF, true)
 		
 				Menu:addSubMenu("Harass", "Harass")
@@ -70,36 +93,45 @@ function OnLoad()
 		Menu.killsteal:addParam("kse", "Killsteal on E", SCRIPT_PARAM_ONOFF, true)
 		Menu.killsteal:addParam("ksr", "Killsteal on R", SCRIPT_PARAM_ONOFF, true)
 		
-		Menu:addSubMenu("Zhonyas", "zhonyas")
-				Menu.zhonyas:addParam("zhonyas", "Auto Zhonyas", SCRIPT_PARAM_ONOFF, true)
-				Menu.zhonyas:addParam("zhonyasunder", "Use Zhonyas under % health", SCRIPT_PARAM_SLICE, 20, 0, 100 , 0)
-				Menu.zhonyas:addParam("zRange", "Use if x Enemies are in x Range", SCRIPT_PARAM_SLICE, 500, 0, 800, 0)
-				Menu.zhonyas:addParam("zAmount", "Use Zhonyas if x Enemies are near", SCRIPT_PARAM_SLICE, 1, 0, 5, 0)
-				
+
 				
 									Menu:addSubMenu("Additional", "Additional")
-		Menu.Additional:addParam("stack", "Auto-Stack E", SCRIPT_PARAM_ONOFF, false)
+				Menu.Additional:addSubMenu("Zhonyas", "zhonyas")
+				Menu.Additional.zhonyas:addParam("zhonyas", "Auto Zhonyas", SCRIPT_PARAM_ONOFF, true)
+				Menu.Additional.zhonyas:addParam("zhonyasunder", "Use Zhonyas under % health", SCRIPT_PARAM_SLICE, 20, 0, 100 , 0)
+				Menu.Additional.zhonyas:addParam("zRange", "Use if x Enemies are in x Range", SCRIPT_PARAM_SLICE, 500, 0, 800, 0)
+				Menu.Additional.zhonyas:addParam("zAmount", "Use Zhonyas if x Enemies are near", SCRIPT_PARAM_SLICE, 1, 0, 5, 0)
+				
 
 		
 					Menu:addSubMenu("Draw", "Draw")
 		Menu.Draw:addParam("dq", "Draw Circle Q", SCRIPT_PARAM_ONOFF, true)
 		Menu.Draw:addParam("de", "Draw Circle E", SCRIPT_PARAM_ONOFF, true)
 		Menu.Draw:addParam("dr", "Draw Circle R", SCRIPT_PARAM_ONOFF, true)
+		
+		
+			if CheckStuff() then
+			    NSOW = SOW(VP)
 		    Menu:addSubMenu("[Vladimir - OrbWalking]", "OrbWalking")
     NSOW:LoadToMenu(Menu.OrbWalking)
 end
+end
 
 function OnTick()
+	if CheckStuff() then
+	    NSOW:ForceTarget(Target)
+			end
 		if myHero.dead then return end
     Target = GetOthersTarget()
-    NSOW:ForceTarget(Target)
     Checks()
 		Killsteal()
-		if Menu.Additional.stack then if time > os.clock() - 9 then do stack() end end end
-			if Menu.zhonyas.zhonyas then Zhonyas() end
- if Menu.OrbWalking.Mode0 then activecombo() end
- if Menu.OrbWalking.Mode1 then holdharass() end
- if Menu.OrbWalking.Mode3 then farm() end
+		if Menu.Additional.zhonyas.zhonyas then Zhonyas() end
+			if Menu.bind.Combo then activecombo()
+			end
+			if Menu.bind.Harass then holdharass()
+			end
+			if Menu.bind.Farm then farm()
+end
 end
 
 function farm() --hold
@@ -120,13 +152,6 @@ if Menu.lasthit.qf and (myHero:CanUseSpell(_Q) == READY) then
 end
 
 
-
-function stack()
-if (myHero:CanUseSpell(_E) == READY) then
-                    CastSpell(_E)
-										time = os.clock()
-end
-end
 
 function ef()
 if Menu.lasthit.ef and (myHero:CanUseSpell(_E) == READY) then
@@ -174,7 +199,7 @@ function activecombo() --Combo
 	if Menu.Combo.ig then UseIgnite(Target) end
 	if Menu.Combo.q then q() end
 	if Menu.Combo.e then e() end
-	if Menu.Combo.r then r() end
+	if Menu.Combo.r and Target.health  < (Target.maxHealth * ( Menu.Combo.comboRHealth / 100)) then r() end
 end
 
 
@@ -228,11 +253,11 @@ end
 function Zhonyas()
 	local zSlot = GetInventorySlotItem(3157)
 		if zSlot ~= nil and myHero:CanUseSpell(zSlot) == READY then
-			local zrange = Menu.zhonyas.zRange
-			local zamount = Menu.zhonyas.zAmount
+			local zrange = Menu.Additional.zhonyas.zRange
+			local zamount = Menu.Additional.zhonyas.zAmount
 			local health = myHero.health
 			local maxHealth = myHero.maxHealth
-				if ((health/maxHealth)*100) <= Menu.zhonyas.zhonyasunder and CountEnemyHeroInRange(zrange) <= zamount then
+				if ((health/maxHealth)*100) <= Menu.Additional.zhonyas.zhonyasunder and CountEnemyHeroInRange(zrange) <= zamount then
 			CastSpell(zSlot)
 		end
 	end
