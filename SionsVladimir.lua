@@ -3,7 +3,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 	
 if myHero.charName ~= "Vladimir" then return end
 --[AutoUpdate]--
-local version = 1.3
+local version = 1.4
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsVladimir"
 time = os.clock()
@@ -26,7 +26,7 @@ end
 
 
 
-print("Sion's Vladimir script Version 1.3")
+print("Sion's Vladimir script Version 1.4")
 print("Thank you for using Sion's Vladimir script.")
 
 require 'VPrediction'
@@ -75,6 +75,7 @@ function OnLoad()
 				Menu.zhonyas:addParam("zhonyasunder", "Use Zhonyas under % health", SCRIPT_PARAM_SLICE, 20, 0, 100 , 0)
 				Menu.zhonyas:addParam("zRange", "Use if x Enemies are in x Range", SCRIPT_PARAM_SLICE, 500, 0, 800, 0)
 				Menu.zhonyas:addParam("zAmount", "Use Zhonyas if x Enemies are near", SCRIPT_PARAM_SLICE, 1, 0, 5, 0)
+				
 				
 									Menu:addSubMenu("Additional", "Additional")
 		Menu.Additional:addParam("stack", "Auto-Stack E", SCRIPT_PARAM_ONOFF, false)
@@ -231,7 +232,7 @@ function Zhonyas()
 			local zamount = Menu.zhonyas.zAmount
 			local health = myHero.health
 			local maxHealth = myHero.maxHealth
-				if ((health/maxHealth)*100) <= Config.misc.zhonyas.zhonyasunder and CountEnemyHeroInRange(zrange) <= zamount then
+				if ((health/maxHealth)*100) <= Menu.zhonyas.zhonyasunder and CountEnemyHeroInRange(zrange) <= zamount then
 			CastSpell(zSlot)
 		end
 	end
