@@ -4,7 +4,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 --1.00 > Initial release
 if myHero.charName ~= "Sion" then return end
 --[AutoUpdate]--
-local version = 1.35
+local version = 1.36
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsSion"
 --========--
@@ -36,7 +36,7 @@ function CheckStuff()
     end
 		end
 
-print("Sion's Sion script Version 1.35")
+print("Sion's Sion script Version 1.36")
 print("Thank you for using")
 
 require "VPrediction"
@@ -63,7 +63,8 @@ Config.hotkeys:addParam("combo", "Combo mode", SCRIPT_PARAM_ONKEYDOWN, false, st
 		Config.ulty:addParam("ultimate", "Ultimate control", SCRIPT_PARAM_ONOFF, true)
 		--[Draw]--
 	Config:addSubMenu("Draw", "draw")
-	Config.draw:addParam("drawCircle", "Draw Combat Range", SCRIPT_PARAM_ONOFF, true)
+	Config.draw:addParam("drawCircle", "Draw Q/E short range", SCRIPT_PARAM_ONOFF, true)
+		Config.draw:addParam("drawE", "Draw E extended range", SCRIPT_PARAM_ONOFF, true)
 			--[other]--
 		--[[					Config:addSubMenu("other", "other")
 	Config.other:addParam("printHp", "Health warning", SCRIPT_PARAM_ONOFF, true)
