@@ -37,7 +37,7 @@ function CheckStuff()
     end
 		end
 
-print("Sion's Sion script Version 1.36")
+print("Sion's Sion script Version 1.37")
 print("Thank you for using")
 
 require "VPrediction"
