@@ -4,7 +4,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 
 
 --[AutoUpdate]--
-local version = 1.2
+local version = 1.21
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsViktor"
 time = os.clock()
@@ -26,6 +26,8 @@ if AUTOUPDATE then
 end
 
 
+
+		
 function CheckStuff()
     if _G.Reborn_Loaded and not _G.Reborn_Initialised then
         DelayAction(CheckStuff, 1)
@@ -99,7 +101,7 @@ champsToStun = {
 
 function OnLoad()
 CheckStuff()
-	qRng, wRng, eRng, rRng = 600, 625, 1250, 700
+	qRng, wRng, eRng, rRng = 600, 625, 1040, 700
 	Q = Spell(_Q, qRng)
 	W = Spell(_W, wRng):SetSkillshot(VP, SKILLSHOT_CIRCULAR, 300, 0.5, 1750, false)
 	E = Spell(_E, eRng):SetSkillshot(VP, SKILLSHOT_LINEAR, 90, 0.5, 1210, false)
@@ -217,10 +219,10 @@ function harass()
 		if Config.hoptions.ehar and E:IsReady() and E:IsInRange(ts.target, myHero) then
 			pose = E:GetPrediction(ts.target)
 			if pose ~= nil then
-				if GetDistance(ts.target) < 1250 then
+				if GetDistance(ts.target) < 540 then
 					ECast(ts.target.x,ts.target.z,pose.x,pose.z)
 				else
-					start = Vector(myHero) + (myHero - pose)*(-1250/GetDistance(pose))
+					start = Vector(myHero) + (myHero - pose)*(-550/GetDistance(pose))
 					ECast(start.x,start.z,pose.x,pose.z)				end
 			end
 		if Config.hoptions.qhar and Q:IsReady() and Q:IsInRange(ts.target,myHero) then
@@ -257,20 +259,20 @@ end
 
 function fullCombo()
 	if ts.target then
-		if Q:IsReady() and Q:IsInRange(ts.target,myHero) then
-			CastSpell(_Q,ts.target)
-		end
 			if E:IsReady() then
 			pose = E:GetPrediction(ts.target)
 			if pose ~= nil then
-				if GetDistance(ts.target) < 1250 then
-					Packet('S_CAST', { spellId = SPELL_3, fromX = ts.target.x, ts.target.z, toX = pose.x, toY = pose.z }):send()
+				if GetDistance(ts.target) < 540 then
+Packet('S_CAST', { spellId = SPELL_3, fromX = ts.target.x, ts.target.z, toX = pose.x, toY = pose.z }):send()
 				else
-					start = Vector(myHero) - 1250 * (Vector(myHero) - Vector(ts.target)):normalized()
-					--start = Vector(myHero) + (myHero - pose)*(-550/GetDistance(pose))
-					Packet('S_CAST', { spellId = SPELL_3, fromX = start.x, fromY = start.z, toX = pose.x, toY = pose.z }):send()
+			start = Vector(myHero) - 530 * (Vector(myHero) - Vector(ts.target)):normalized()
+Packet('S_CAST', { spellId = SPELL_3, fromX = start.x, start.z, toX = pose.x, toY = pose.z }):send()
 				end
 			end
+		end
+			if Q:IsReady() and Q:IsInRange(ts.target,myHero) then
+			CastSpell(_Q,ts.target)
+			myHero:Attack(ts.target)
 		end
 		if W:IsReady() and W:IsInRange(ts.target,myHero) and Config.options.useStun then
 			posw = W:GetPrediction(ts.target)
