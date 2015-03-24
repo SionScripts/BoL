@@ -3,7 +3,7 @@ assert(load(Base64Decode("G0x1YVIAAQQEBAgAGZMNChoKAAAAAAAAAAAAAQIKAAAABgBAAEFAAA
 	
 if myHero.charName ~= "Vladimir" then return end
 --[AutoUpdate]--
-local version = 1.5
+local version = 1.51
 local AUTOUPDATE = true
 local SCRIPT_NAME = "SionsVladimir"
 time = os.clock()
@@ -199,7 +199,7 @@ function activecombo() --Combo
 	if Menu.Combo.ig then UseIgnite(Target) end
 	if Menu.Combo.q then q() end
 	if Menu.Combo.e then e() end
-	if Menu.Combo.r and Target.health  < (Target.maxHealth * ( Menu.Combo.comboRHealth / 100)) then r() end
+	if Menu.Combo.r and Target ~= nil and Target.health  < (Target.maxHealth * ( Menu.Combo.comboRHealth / 100)) then r() end
 end
 
 
